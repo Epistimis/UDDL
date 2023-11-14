@@ -1,0 +1,585 @@
+{
+	"DataModel": {
+	"prefix": "dm",
+	"body": [
+		"dm: ${1:name} '${2:description}' {",
+		"${3:}",
+		"}\n"
+	]	
+	},
+	"ConceptualDataModel": {
+	"prefix": "cdm",
+	"body": [
+		"cdm ${1:name} '${2:description}' {",
+		"\t$3",
+		"}\n",
+	],
+	"description": "A ConceptualDataModel is a container for CDM Elements."
+	},
+	"LogicalDataModel": {
+	"prefix": "ldm",
+	"body": [
+		"ldm ${1:name} '${2:description}' {",
+		"$3",
+		"}\n",
+	],
+	"description": "A LogicalDataModel is a container for LDM Elements."
+	},
+"PlatformDataModel": {
+	"prefix": "pdm",
+	"body": [
+		"pdm ${1:name} '${2:description}' {",
+		"$3",
+		"}\n",
+	],
+	"description": "A PlatformDataModel is a container for platform Data Model elements."
+},
+"ConceptualBasisEntity": {
+	"prefix": "basis",
+	"body": [
+		"basis ${1:name} '${2:description}' ;\n",
+	],
+	"description": "A BasisEntity represents a unique domain concept and establishes a basis which can be used by conceptual Entities."
+},
+"ConceptualDomain": {
+	"prefix": "domain",
+	"body": [
+		"domain ${1:name} '${2:description}';\n",
+	],
+	"description": "A Domain represents a space defined by a set of BasisEntities relating to well understood concepts by practitioners within a particular domain."
+},
+"ConceptualObservable": {
+	"prefix": "observable",
+	"body": [
+		"observable ${1:name} '${2:description}';\n",
+	],
+	"description": "An Observable is something that can be observed but not further characterized, and is typically quantified through measurements of the physical world. An observable is independent of any specific data representation, units, or reference frame."
+},
+"ConceptualEntity": {
+	"prefix": "centity",
+	"body": [
+		"centity ${1:name} '${2:description}': ${3:ConceptualEntity} {",
+		"$4",
+		"};\n"
+	],
+	"description": "A conceptual Entity represents a domain concept in terms of its Observables and other composed conceptual Entities."
+},
+
+"ConceptualComposition": {
+	"prefix": "composition",
+	"body": [
+		"${1:type} ${2:rolename}[ ${3:lowerBound} : ${4:upperBound}]","'${5:description}' : ${ConceptualCharacteristic};\n" 
+	],
+	"description": "A conceptual Composition is the mechanism that allows conceptual EntiConceptualCharacteristicties to be constructed from other conceptual ComposableElements."
+},
+
+"ConceptualAssociation": {
+	"prefix": "cassoc",
+	"scope": "com.epistimis.uddl.Uddl.ConceptualBasisEntity",
+	"body": [
+		"cassoc ${1:name} '${2:description}' : ${3:ConceptualEntity} {",
+		"$4",
+		"};\n"
+	],
+	"description": "A conceptual Association represents a relationship between two or more conceptual Entities."
+},
+
+"ConceptualParticipant": {
+	"prefix":"participant",
+	"body": [
+		"${1:type} ${2:rolename}[${3:lowerBound} : ${4:upperBound}]",
+		"'${5:description}' : ${6:ConceptualCharacteristic}{",
+		"src: [${7:sourceLowerBound} : ${8:sourceUpperBound}] ",
+		"path: ${8:ConceptualPathNode}",
+		"};\n"
+	],
+	"description": "A conceptual Participant is the mechanism that allows a conceptual Association to be constructed between two or more conceptual Entities."
+},
+"ConceptualQuery":{
+	"prefix": "cquery",
+	"body": [
+		"cquery ${1:name} '${2:description}'{,",
+		"spec: '${3:specification}'",
+		"};\n"
+	],
+	"description": "A conceptual Query is a specification that defines the content of conceptual View as a set of conceptual Characteristics projected from a selected set of related conceptual Entities. The “specification” attribute captures the specification of a Query as defined by the Query grammar."
+},
+"ConceptualCompositeQuery":{
+"prefix": "ccquery",
+"body": [
+	"ccquery ${1:name} '${2:description}'{,"
+	,"isUnion",
+	"${3:}",
+	"}\n"
+],
+"description": "A conceptual CompositeQuery is a collection of two or more conceptual Views. The “isUnion” attribute specifies whether the composed Views are intended to be mutually exclusive or not."
+},
+"ConceptualQueryComposition":{
+"prefix": "cqcomp",
+"body": [
+	"${1:ConceptualView} ${2:rolename};\n" 
+],
+"description": "A conceptual QueryComposition is the mechanism that allows a conceptual CompositeQuery to be constructed from conceptual Queries and other conceptual CompositeQueries. The “rolename” attribute defines the name of the composed conceptual View within the scope of the composing conceptual CompositeQuery. The “type” of a conceptual QueryComposition is the conceptual View being used to construct the conceptual CompositeQuery."
+},
+"LogicalUnit":{
+"prefix": "lunit",
+"body": [
+	"lunit ${1:name} '${2:description}';\n" 
+],
+"description": "A Unit is a defined magnitude of quantity used as a standard for measurement. "
+},
+"LogicalConversion":{
+"prefix": "conv",
+"body": [
+	"conv ${1:name} '${2:description}'{",
+	"${3:source} -> ${4:destination}",
+	"};\n" 
+],
+"description": " A Conversion is a relationship between two ConvertibleElements that describes how to transform measured quantities between two Units."
+},
+"LogicalAffineConversion":{
+"prefix": "aconv",
+"body": [
+	"aconv ${1:name} '${2:description}'{",
+	"${3:source} -(${4:conversionFactor} , ${5:offset})->",
+	"\t${6:destination}",
+	"};\n" 
+],
+"description": " An AffineConversion is a relationship between two ConvertibleElements in the form mx+b."
+},
+"LogicalEnumerated":{
+"prefix": "enum",
+"body": [
+	"enum ${1:name} '${2:description}' ",
+	"\tstdRef: '${3:standardReference}'[" ,
+	"\t${6:}",
+	";\n" 
+],
+"description": "An Enumerated is a value type representing a set of named values, each with specific meaning."
+},
+"LogicalEnumeratedSet":{
+"prefix": "enumSet",
+"body": [
+	"( ${1:name} '${2:description}'[,"
+	,"\t${3:}",
+	"])\n"
+],
+"description": " allowing label to be a LogicalEnumeratedSet enables taxonomy definitions via enumerations "
+},
+"LogicalEnumerationLabel":{
+"prefix": "enumLable",
+"body": [
+	"( ${1:name} '${2:description}')"
+	,"\n"	
+],
+"description": " An EnumerationLabel defines a named member of an Enumerated value set. "
+},
+"LogicalCoordinateSystem":{
+"prefix": "coord",
+"body": [
+	"( ${1:name} '${2:description}'){"
+	,"axis: '${3:axisRelationshipDescription}'"
+	,"angleEq: ${4:angleEquation}"
+	,"distanceEq: ${5:distanceEquation}"
+	,"[${6:LogicalCoordinateSystemAxis]"
+	,"}\n"	
+],
+"description": "A CoordinateSystem is a system which uses one or more coordinates to uniquely determine the position of a point in an N-dimensional space. The coordinate system is comprised of multiple CoordinateSystemAxis which completely span the space. Coordinates are quantified relative to the CoordinateSystemAxis. It is not required that the dimensions be ordered or continuous."
+},
+"LogicalCoordinateSystemAxis":{
+"prefix": "coordAxis",
+"body": [
+	"csa ${1:name} '${2:description}';"
+	,"\n"	
+],
+"description": "A CoordinateSystemAxis represents a dimension within a CoordinateSystem"
+},
+"LogicalStandardMeasurementSystem":{
+"prefix": "smsys",
+"body": [
+	"smys ${1:name} '${2:description}'{"
+	,"\trefstd: ${3:referenceStandard}"
+	,"};\n"	
+],
+"description": "A StandardMeasurementSystem is used to represent an open, referenced measurement system without requiring the detailed modeling of the measurement system. The reference should be unambiguous and allows for full comprehension of the underlying measurement system."
+},
+"landmark":{
+"prefix": "landmark",
+"body": [
+	"landmark ${1:name} '${2:description}';"
+	,"\n"	
+],
+"description": " A Landmark is a named, recognizable or artificial feature used to locate a ReferencePoint in a measurable space."
+},
+"LogicalMeasurementSystem":{
+"prefix": "msys",
+"body": [
+	"msys ${1:name} '${2:description}'{"
+	,"${3:}"
+	,"}\n"	
+],
+"description": "A MeasurementSystem relates a CoordinateSystem to an origin and orientation for the purpose of establishing a common basis for describing points in an N-dimensional space. Defining a MeasurementSystem establishes additional properties of the CoordinateSystem including units and value types for each axis, and a set of reference points that can be used to establish an origin and indicate the direction of each axis."
+},
+"LogicalMeasurementSystemAxis":{
+"prefix": "msa",
+"body": [
+	"msa ${1:name} '${2:description}'{"
+	,"axis: {$3:axis}"
+	,"vtu: [${4:}]"
+	,"}\n"	
+],
+"description": " A MeasurementSystemAxis establishes additional properties for a CoordinateSystemAxis including units and value types. "
+},
+"LogicalReferencePointPart":{
+"prefix": "refPoinPart",
+"body": [
+	"(${1:axis} ${2:value} ${3:valueTypeUnit});\n"	
+],
+"description": " A ReferencePointPart is a value for one ValueTypeUnit in a ValueTypeUnit set that is used to identify a specific point along an axis.  "
+},
+"LogicalValueTypeUnit":{
+"prefix": "vtu",
+"body": [
+	"vtu ${1:valueType} ${2:unit}{"
+	,"!${3:constraint}"
+	,"};\n"	
+],
+"description": "  A ValueTypeUnit defines the logical representation of a MeasurementSystemAxis or MeasurementAxis value type in terms of a Unit and ValueType pair. "
+},
+"LogicalIntegerRangeConstraint":{
+"prefix": "irc",
+"body": [
+	"irc ${1:name} [${2:lowerBound} : ${3:upperBound]"
+	,"'${4:description}';\n"
+],
+"description": " An IntegerRangeConstraint specifies a defined range of meaningful values for an Integer or Natural. The “upperBound” is greater than or equal to the “lowerBound”. The defined range is inclusive of the “upperBound” and “lowerBound”."
+},
+"LogicalRealRangeConstraint":{
+"prefix": "rrc",
+"body": [
+	"rrc ${1:name} (${2:lowerBound} : ${3:upperBound)"
+	,"'${4:description}';\n"
+],
+"description": " A RealRangeConstraint specifies a defined range of meaningful values for a Real or NonNegativeReal. The “upperBound” is greater than or equal to the “lowerBound”."
+},
+"LogicalRegularExpressionConstraint":{
+"prefix": "rec",
+"body": [
+	"rec ${1:name} ['${2:expression}']"
+	,"'${4:description}';\n"
+],
+"description": " A RegularExpressionConstraint specifies a defined set of meaningful values for a String in the form of a regular expression."
+},
+"LogicalFixedLengthStringConstraint":{
+"prefix": "flsc",
+"body": [
+	"flsc ${1:name} [${2:length}]"
+	,"'${4:description}';\n"
+],
+"description": " A FixedLengthStringConstraint specifies a defined set of meaningful values for a String of a specific fixed length. The “length” attribute defines the fixed length, an integer value greater than 0."
+},
+"LogicalMeasurementSystemConversion":{
+"prefix": "msc",
+"body": [
+	"msc ${1:name} '${2:description}'{"
+	,"${3:source} -> ${4:destination}"
+	,"eqn: ['${5:equation}' , '${6:equation}']"
+	,"loss: '${7:conversionLossDescription}'"
+	,"};\n"
+],
+"description": "A MeasurementSystemConversion is a relationship between two MeasurementSystems that describes how to transform measured quantities between those MeasurementSystems. The conversion is captured as a set of equations in the “equation” attribute. The specific format of “equation” is undefined. The loss introduced by the conversion equations is captured in the “conversionLossDescription” attribute. The specific format of “conversionLossDescription” is undefined. "
+},
+"LogicalMeasurement":{
+"prefix": "meas",
+"body": [
+	"meas ${1:name} '${2:description}' -> ${3:ConceptualObservable}{"
+	,"\t${4:}"
+	,"};\n"
+],
+"description": " A Measurement realizes an Observable as a set of quantities that can be recorded for each axis of a MeasurementSystem. A Measurement contains the specific implementation details optionally including an override of the default ValueType and Unit for each axis as well as the constraints over that space for which the MeasurementSystem is valid. "
+},
+"LogicalMeasurementAxis":{
+"prefix": "maxis",
+"body": [
+	"maxis ${1:name} '${2:description}' -> ${3:ConceptualObservable}{"
+	,"\tvtu:${4:}"
+	,"};\n"
+],
+"description": " A MeasurementAxis optionally establishes constraints for a MeasurementSystemAxis and may optionally override its default units and value types.  "
+},
+"LogicalMeasurementConversion":{
+"prefix": "mc",
+"body": [
+	"mc ${1:name} '${2:description}'{"
+	,"${4:LogicalMeasurementSystem} -> ${5:destination}"
+	,"eqn: ['${6:equation}' , '${7:equation}']"
+	,"loss: '${7:conversionLossDescription}'"
+	,"};\n"
+],
+"description": "A MeasurementConversion is a relationship between two Measurements that describes how to transform measured quantities between those Measurements. The conversion is captured as a set of equations in the “equation” attribute. The specific format of “equation” is undefined. The loss introduced by the conversion equations is captured in the “conversionLossDescription” attribute. The specific format of “conversionLossDescription” is undefined."
+},
+"LogicalEntity":{
+"prefix": "lentity",
+"body": [
+	"lentity ${1:name} '${2:description}' : ${3:LogicalEntity} ->"
+	,"\t${4:ConceptualEntity}{"
+	,"eqn: [${6:}"
+	,"};\n"
+],
+"description": "A logical Entity “realizes” a conceptual Entity in terms of Measurements and other logical Entities. Since a logical Entity is built from logical Measurements, it is independent of any specific platform data representation. A logical Entity's composition hierarchy is consistent with the composition hierarchy of the conceptual Entity that it realizes. The logical Entity’s composed Entities realize one to one the conceptual Entity’s composed Entities; the logical Entity’s composed Measurements realize many to one the conceptual Entity’s composed Observables."
+},
+"LogicalComposition":{
+"prefix": "lcomp",
+"body": [
+	" ${1:LogicalComposableElement} '${2:rolename}' ["
+	,"\t${3:lowerBound} : ${4:upperBound}]"
+	,"'${5:description}' : ${6:LogicalCharacteristic} -> ${7:ConceptualComposition};"
+	,"\n"
+],
+"description": "A logical Composition is the mechanism that allows logical Entities to be constructed from other logical ComposableElements. The “type” of a Composition is the ComposableElement being used to construct the logical Entity. The “lowerBound” and “upperBound” define the multiplicity of the composed logical Entity. An “upperBound” multiplicity of –1 represents an unbounded sequence."
+},
+"LogicalAssociation":{
+"prefix": "lassoc",
+"body": [
+	"lassoc ${1:name} '${2:describing}' : ${3:LogicalEntity} -> ${4:ConceptualEntity}{"
+	,"${5:}"
+	,"};\n"
+],
+"description": "A logical Association represents a relationship between two or more logical Entities. The logical Entities participating in the logical Association may be specified locally or in its generalized types. In addition, there may be one or more logical ComposableElements that characterize the relationship. Logical Associations are logical Entities that may also participate in other logical Associations."
+},
+"LogicalParticipant":{
+"prefix": "lpart",
+"body": [
+	"${1:LogicalEntity} ${2:rolename}[${3:lowerBound} : ${4:upperBound} '${5:description}' : ${6:LogicalCharacteristic} -> ${7:ConceptualParticipant}{"
+	,"source: [${8{sourceLowerBound} : ${9:sourceUpperBound}]"
+	,"path: ${10:LogicalPathNode}"
+	,"};\n"
+],
+"description": "A logical Participant is the mechanism that allows a logical Association to be constructed between two or more logical Entities. The “type” of a logical Participant is the logical Entity being used to construct the logical Association. The “sourceLowerBound” and “sourceUpperBound” attributes define the multiplicity of the logical Association relative to the Participant. A “sourceUpperBound” multiplicity of –1 represents an unbounded sequence. The “path” attribute of the Participant describes the chain of entity characteristics to traverse to reach the subject of the association beginning with the entity referenced by the “type” attribute."
+},
+"LogicalQuery":{
+"prefix": "lquery",
+"body": [
+	"lquery ${2:name} '$3{description}' -> ${4:ConceptualQuery}{"
+	,"spec: '${5specification}'"
+	,"};\n"
+],
+"description": " A logical Query is a specification that defines the content of logical View as a set of logical Characteristics projected from a selected set of related logical Entities. The “specification” attribute captures the specification of a Query as defined by the Query grammar."
+},
+"LogicalCompositeQuery":{
+"prefix": "lcquery",
+"body": [
+	"lquery ${2:name} '$3{description}' -> ${4:ConceptualCompositeQuery}{"
+	,"isUnion"
+	,"${5:}"
+	,"};\n"
+],
+"description": " A logical CompositeQuery is a collection of two or more logical Views. The “isUnion” attribute specifies whether the composed Views are intended to be mutually exclusive or not."
+},
+"LogicalQueryComposition":{
+"prefix": "lqcomp",
+"body": [
+	"${1:LogicalView} ${2:rolename} -> ${3:ConceptualQueryComposition}\n"
+],
+"description": " A logical QueryComposition is the mechanism that allows a logical CompositeQuery to be constructed from logical Queries and other logical CompositeQueries. The “rolename” attribute defines the name of the composed logical View within the scope of the composing logical CompositeQuery. The “type” of a logical QueryComposition is the logical View being used to construct the logical CompositeQuery."
+},
+"PlatformBoolean":{
+"prefix": "pbool",
+"body": [
+	"bool ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " A Boolean is a data type that represents the values TRUE and FALSE."
+},
+"PlatformOctet":{
+"prefix": "poctet",
+"body": [
+	"octet ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " An Octet is an 8-bit quantity that is guaranteed not to undergo any conversion during transfer between systems."
+},
+"PlatformString":{
+"prefix": "pstring",
+"body": [
+	"string ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " A String is a data type that represents a variable length sequence of Char (all 8-bit quantities except NULL). The length is a non-negative integer, and is available at run-time.."
+},
+"PlatformBoundedString":{
+"prefix": "pbstring",
+"body": [
+	"string[${4:maxLength}] ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " A BoundedString is a data type that represents a variable length sequence of Char (all 8-bit quantities except NULL). The length is a non-negative integer, and is available at run-time. The “maxLength” attribute defines the maximum length of the BoundedString, an integer value greater than 0."
+},
+"PlatformCharArray":{
+"prefix": "pcarray",
+"body": [
+	"char[${4:maxLength}] ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": "A CharArray is a data type that represents a fixed length sequence of Char (all 8-bit quantities except NULL). The length is a positive integer, and is available at run-time. The “length” attribute defines the length of the CharArray, an integer value greater than 0."
+},
+"PlatformEnumeration":{
+"prefix": "penum",
+"body": [
+	"enum ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " An Enumeration is a data type that represents an ordered list of identifiers."
+},
+"PlatformShort":{
+"prefix": "pshort",
+"body": [
+	"short ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": "A Short is an integer data type that represents integer values in the range –2^15 to (2^15 – 1)."
+},
+"PlatformLong":{
+"prefix": "plong",
+"body": [
+	"long ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": "A Long is an integer data type that represents integer values in the range –2^31 to (2^31 – 1)."
+},
+"PlatformLongLong":{
+"prefix": "pllong",
+"body": [
+	"llong ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": "A LongLong is an integer data type that represents integer values in the range –2^63 to (2^63 – 1)."
+},
+"PlatformDouble":{
+"prefix": "pdouble",
+"body": [
+	"double ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": "A Double is a real data type that represents an IEEE double precision floating-point number."
+},
+"PlatformLongDouble":{
+"prefix": "pldouble",
+"body": [
+	"ldouble ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " A LongDouble is a real data type that represents an IEEE extended double precision floating- point number (having a signed fraction of at least 64 bits and an exponent of at least 15 bits) "
+},
+"PlatformFloat":{
+"prefix": "pfloat",
+"body": [
+	"float ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": "A Float is a real data type that represents an IEEE single precision floating-point number. "
+},
+"PlatformUShort":{
+"prefix": "pushort",
+"body": [
+	"ushort ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": "A UShort is an integer data type that represents integer values in the range 0 to (2^16 – 1)."
+},
+"PlatformULong":{
+"prefix": "pulong",
+"body": [
+	"ulong ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " A ULong is an integer data type that represents integer values in the range 0 to (2^32 – 1)."
+},
+"PlatformULongLong":{
+"prefix": "pullong",
+"body": [
+	"ullong ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": "  A ULongLong is an integer data type that represents integer values in the range 0 to (2^64 – 1)."
+},
+"PlatformSequence":{
+"prefix": "pseq",
+"body": [
+	"seq[${4:maxSize}] ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " A Sequence is used to represent a sequence of Octets. This can be used to realize a StandardMeasurementSystem. "
+},
+"PlatformArray":{
+"prefix": "parr",
+"body": [
+	"arr[${4:size}] ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement};\n"
+],
+"description": " A Sequence is used to represent a sequence of Octets. This can be used to realize a StandardMeasurementSystem. "
+},
+"PlatformStruct":{
+"prefix": "pstruct",
+"body": [
+	"struct ${1:name} '${2:description}' -> ${3:LogicalAbstractMeasurement}{"
+	,"${4:}"
+	,"}\n"
+],
+"description": " A platform Struct is a structured realization of a logical AbstractMeasurement. It is composed of PlatformDataTypes (i.e., Primitives and other Structs composed of Primitives). A platform Struct’s composition hierarchy is consistent with the composition hierarchy of the logical AbstractMeasurement that it realizes. "
+},
+"PlatformStructMember":{
+"prefix": "pstructmember",
+"body": [
+	" ${1:PlatformDataType} '${2:rolename}'(${4:precision}) -> ${3:LogicalMeasurementAttribute};\n"
+],
+"description": " A StructMember is the mechanism that allows Structs to be constructed from other PlatformDataTypes. The “type” of a StructMember is the PlatformDataType being used to construct the Struct. If “type” is a Primitive, the “precision” attribute specifies a measure of the detail in which a quantity is captured."
+},
+"PlatformEntity":{
+"prefix": "pentity",
+"body": [
+	"pentity ${1:name} '${2:description}' : (${4:PlatformEntity}) -> ${3:LogicalEntity}{"
+	,"${5:}"
+	,"};\n"
+],
+"description": "A platform Entity “realizes” a logical Entity in terms of PhysicalDataTypes and other platform Entities composed of PhysicalDataTypes. A platform Entity’s composition hierarchy is consistent with the composition hierarchy of the logical Entity that it realizes. The platform Entity’s composed Entities realize one to one the logical Entity’s composed Entities; the platform Entity’s composed PhysicalDataTypes realize many to one the logical Entity’s composed Measurements.."
+},
+"PlatformComposition":{
+"prefix": "pcomp",
+"body": [
+	"${1:PlatformComposableElement} ${2:rolename}[${3:lowerBound} : ${4:upperBound}] '${5:description}' : ${6:PlatformCharacteristic} -> ${7:LogicalComposition}{"
+	,"prec: ${8:precision}"
+	,"};\n" 
+],
+"description": " A platform Composition is the mechanism that allows platform Entities to be constructed from other platform ComposableElements. The “type” of a Composition is the ComposableElement being used to construct the platform Entity. The “lowerBound” and “upperBound” define the multiplicity of the composed platform Entity. An “upperBound” multiplicity of –1 represents an unbounded sequence. If “type” is a Primitive, the “precision” attribute specifies a measure of the detail in which a quantity is captured."
+},
+"PlatformAssociation":{
+"prefix": "passoc",
+"body": [
+	"${1:name} '${5:description}' : ${6:PlatformEntity} -> ${7:LogicalEntity}{"
+	,"${8:}"
+	,"};\n" 
+],
+"description": " A platform Association represents a relationship between two or more platform Entities. The platform Entities participating in the platform Association may be specified locally or in its generalized types. In addition, there may be one or more platform ComposableElements that characterize the relationship. Platform Associations are platform Entities that may also participate in other platform Associations."
+},
+"PlatformParticipant":{
+"prefix": "ppart",
+"body": [
+	"${1:PlatformEntity} ${2:rolename}[${3:lowerBound} : ${4:upperBound}] '${5:description}' : ${6:PlatformCharacteristic} -> ${7:LogicalParticipant}{"
+	,"source: [${8:sourceLowerBound} : ${9:sourceUpperBound}]"
+	,"path: ${10:PlatformPathNode}"
+	,"};\n" 
+],
+"description": " A platform Participant is the mechanism that allows a platform Association to be constructed between two or more platform Entities. The “type” of a platform Participant is the platform Entity being used to construct the platform Association. The “sourceLowerBound” and “sourceUpperBound” attributes define the multiplicity of the platform Association relative to the Participant. A “sourceUpperBound” multiplicity of –1 represents an unbounded sequence. The “path” attribute of the Participant describes the chain of entity characteristics to traverse to reach the subject of the association beginning with the entity referenced by the “type” attribute."
+},
+"PlatformQuery":{
+"prefix": "pquery",
+"body": [
+	"pquery ${1:name} '${2:description}' -> ${3:LogicalQuery}{"
+	,"spec: '${5:specification}'"
+	,"};\n"
+],
+"description": "A platform Query is a specification that defines the content of platform View as a set of platform Characteristics projected from a selected set of related platform Entities. The “specification” attribute captures the specification of a Query as defined by the Query grammar."
+},
+"PlatformCompositeQuery":{
+"prefix": "pcquery",
+"body": [
+	"pquery ${1:name} '${2:description}' -> ${3:LogicalQuery}{"
+	,"isUnion"
+	,"{5:}'"
+	,"};\n"
+],
+"description": "A platform CompositeQuery is a collection of two or more platform Views. The “isUnion” attribute specifies whether the composed Views are intended to be mutually exclusive or not."
+},
+"PlatformQueryComposition":{
+"prefix": "pqcomp",
+"body": [
+	"${1:PlatformView} ${2:rolename} -> ${3:LogicalQueryComposition}"
+],
+"description": "A platform QueryComposition is the mechanism that allows a platform CompositeQuery to be constructed from platform Queries and other platform CompositeQueries. The “rolename” attribute defines the name of the composed platform View within the scope of the composing platform CompositeQuery. The “type” of a platform QueryComposition is the platform View being used to construct the platform CompositeQuery."
+},
+
+}
